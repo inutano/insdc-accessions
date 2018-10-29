@@ -20,7 +20,7 @@ module INSDCLink
                   1,           # Submission ID
                   10,          # Experiment ID
                   11,          # Sample ID
-                  13,          # Study ID
+                  12,          # Study ID
                   17,          # BioSample ID
                   18,          # BioProject ID
                 ].map{|i| l[i] } - ["-"],
