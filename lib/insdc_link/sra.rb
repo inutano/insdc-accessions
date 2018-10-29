@@ -6,19 +6,17 @@ module INSDCLink
       def parse_accessions(accessions_fpath)
         open(accessions_fpath).each_line do |line|
           l = line.chomp.split("\t")
-          link = [1,10,11,13,17,18].map{|i| l[i] } - ["-"]
-          body = {
-            "@id" => l[0],
+          entry = {
+            "@id" => l[0], # Accession ID
             :link => [
-              l[1],
-              l[10],
-              l[11],
-              l[13],
-              l[17],
-              l[18],
-            ] - ["-"]
+              1,           # Submission ID
+              10,          # Experiment ID
+              11,          # Sample ID
+              13,          # Study ID
+              17,          # BioSample ID
+              18,           # BioProject ID
+            ].map{|i| l[i] } - ["-"],
           }
-          puts JSON.dump(body)
         end
       end
     end
