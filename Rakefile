@@ -12,6 +12,7 @@ end
 namespace :insdc_link do
   desc "Generate INSDC Link data in JSON-LD"
   task :json_ld do
-    INSDCLink::SRA.parse_accessions("./data/SRA_Accessions.tab")
+    INSDCLink::SRA::Accessions.load_accessions("./data/SRA_Accessions.tab")
+    INSDCLink::SRA::Accessions.generate_jsonld
   end
 end
