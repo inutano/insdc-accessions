@@ -16,7 +16,7 @@ module INSDCLink
               l = line.chomp.split("\t")
               entry = {
                 "@id" => l[0], # Accession ID
-                :link => [
+                :link_to => [
                   1,           # Submission ID
                   10,          # Experiment ID
                   11,          # Sample ID
