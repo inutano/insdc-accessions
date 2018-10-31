@@ -13,21 +13,34 @@ module INSDCLink
         def generate_jsonld
           open(@@jsonld_fpath, "w") do |write_io|
             @@accessions.each_line do |line|
-              l = line.chomp.split("\t")
-              entry = {
-                "@id" => l[0], # Accession ID
-                :link_to => [
-                  1,           # Submission ID
-                  10,          # Experiment ID
-                  11,          # Sample ID
-                  12,          # Study ID
-                  17,          # BioSample ID
-                  18,          # BioProject ID
-                ].map{|i| l[i] } - ["-"],
-              }
-              write_io.puts(JSON.dump(entry))
+              l = line.split("\t")
+              write_io.puts(
+                JSON.dump(
+                  {
+                    "@id" => l[0], # Accession ID
+                    "link_to" => [
+                      l[1],        # Submission ID
+                      l[10],       # Experiment ID
+                      l[11],       # Sample ID
+                      l[12],       # Study ID
+                      l[17],       # BioSample ID
+                      l[18],       # BioProject ID
+                    ] - ["-"],
+                  }
+                )
+              )
             end
           end
+        end
+      end
+    end
+
+    module RunMembers
+      class << self
+        def load_run_members(run_members_file_path)
+        end
+
+        def generate_jsonld
         end
       end
     end
