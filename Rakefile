@@ -10,9 +10,15 @@ Dir["#{PROJ_ROOT}/lib/tasks/**/*.rake"].each do |path|
 end
 
 namespace :insdc_link do
-  desc "Generate INSDC Link data in JSON-LD"
-  task :json_ld do
+  desc "Generate JSON-LD for SRA Accessions relation"
+  task :accession do
     INSDCLink::SRA::Accessions.load_accessions("./data/SRA_Accessions.tab")
     INSDCLink::SRA::Accessions.generate_jsonld
+  end
+
+  desc "Generate JSON-LD for SRA Run Members relation"
+  task :run_members do
+    INSDCLink::SRA::RunMembers.load_run_members("./data/SRA_Run_Members.tab")
+    INSDCLink::SRA::RunMembers.generate_jsonld
   end
 end

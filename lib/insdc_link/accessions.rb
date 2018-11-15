@@ -34,15 +34,5 @@ module INSDCLink
         end
       end
     end
-
-    module RunMembers
-      class << self
-        def load_run_members(run_members_file_path)
-        end
-
-        def generate_jsonld
-        end
-      end
-    end
   end
 end
