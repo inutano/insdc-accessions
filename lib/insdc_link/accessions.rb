@@ -10,8 +10,32 @@ module INSDCLink
           @@jsonld_fpath = File.join(@@dir, "SRA_Accessions.jsonld")
         end
 
+        def context
+          {
+            "id.org" => "http://identifiers.org/",
+            "insdc.org" => "http://identifiers.org/insdc.sra/",
+            "biosample" => "http://identifiers.org/biosample/",
+          }
+        end
+
+        def context_jsonld
+          JSON.dump(context)
+        end
+
+        def header
+          '{"@context":' + context_jsonld + ', "@graph":['
+        end
+
+        def footer
+          ']}'
+        end
+
         def generate_jsonld
           open(@@jsonld_fpath, "w") do |write_io|
+            # JSON-LD header
+            write_io.puts(header)
+
+            # Entities
             @@accessions.each_line do |line|
               l = line.split("\t")
               write_io.puts(
@@ -30,6 +54,9 @@ module INSDCLink
                 )
               )
             end
+            
+            # Closing
+            write_io.puts(footer)
           end
         end
       end
