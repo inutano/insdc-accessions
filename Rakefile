@@ -11,7 +11,7 @@ end
 
 namespace :insdc_link do
   desc "Generate JSON-LD for SRA Accessions relation"
-  task :accession do
+  task :accessions do
     INSDCLink::SRA::Accessions.load_accessions("./data/SRA_Accessions.tab")
     INSDCLink::SRA::Accessions.generate_jsonld
   end
