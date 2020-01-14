@@ -12,7 +12,6 @@ module INSDCLink
           @@number_of_entries = open(accessions_tmp_path).readlines.size
 
           @@dir = File.dirname(accessions_file_path)
-          @@jsonld_fpath = File.join(@@dir, "SRA_Accessions.jsonld")
         end
 
         def context
@@ -77,6 +76,7 @@ module INSDCLink
         end
 
         def generate_jsonld
+          @@jsonld_fpath = File.join(@@dir, "SRA_Accessions.jsonld")
           add_header
           add_content
           add_footer
