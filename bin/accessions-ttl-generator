@@ -1,0 +1,89 @@
+#!/usr/bin/env awk -f
+#
+# accessions-ttl-generator
+#  a script to generate RDF-TTL from SRA_Accessions file available at ftp.ncbi.nlm.nih.gov/reports/Metadata
+#  Author: Tazro Inutano Ohta inutano@gmail.com
+#  License: MIT
+#
+# Columns of input accessions file
+#  $1: SRA Accession ID
+#  $2: SRA Submission ID
+#  $11: SRA Experiment ID
+#  $12: SRA Sample ID
+#  $13: SRA Study ID
+#  $18: BioSample ID
+#  $19: BioProject ID
+#
+
+BEGIN {
+  FS=OFS="\t"
+
+  oh=woo="insdc:"
+  hey="biosample:"
+  what="bioproject:"
+
+  say=" id:link_to "
+  you=" "
+  yeah=";"
+  ohyeah=hoo=" ."
+
+  print "@prefix id: <http://identifiers.org/> ."
+  print "@prefix insdc: <http://identifiers.org/insdc.sra/> ."
+  print "@prefix biosample: <http://identifiers.org/biosample/> ."
+  print "@prefix bioproject: <http://identifiers.org/bioproject/> ."
+  print ""
+}
+
+$0 ~ /^.RX/ {
+  print oh $2 say oh $1 yeah     # acc to exp
+  print you say oh $12 yeah      # acc to sample
+  print you say oh $13 yeah      # acc to study
+  print you say hey $18 yeah     # acc to bs
+  print you say what $19 ohyeah  # acc to bp
+
+  print oh $1 say oh $2 yeah     # exp to acc
+  print you say oh $12 yeah      # exp to sample
+  print you say oh $13 yeah      # exp to study
+  print you say hey $18 yeah     # exp to bs
+  print you say what $19 ohyeah  # exp to bp
+
+  print oh $12 say oh $1 yeah    # sample to exp
+  print you say oh $2 yeah       # sample to acc
+  print you say oh $13 yeah      # sample to study
+  print you say hey $18 yeah     # sample to bs
+  print you say what $19 ohyeah  # sample to bp
+
+  print oh $13 say oh $1 yeah    # study to expt
+  print you say oh $2 yeah       # study to acc
+  print you say oh $12 yeah      # study to sample
+  print you say hey $18 yeah     # study to bs
+  print you say what $19 ohyeah  # study to bp
+
+  print hey $18 say oh $1 yeah   # bs to expt
+  print you say oh $2 yeah       # bs to acc
+  print you say oh $12 yeah      # bs to sample
+  print you say oh $13 yeah      # bs to study
+  print you say what $19 ohyeah  # bs to bp
+
+  print what $19 say oh $1 yeah  # bp to expt
+  print you say oh $2 yeah       # bp to acc
+  print you say oh $12 yeah      # bp to sample
+  print you say oh $13 yeah      # bp to study
+  print you say hey $18 ohyeah   # bp to bp
+}
+
+$0 ~ /^.RR/ {
+  print oh $1 say oh $2 yeah     # run to acc
+  print you say oh $11 yeah      # run to exp
+  print you say oh $12 yeah      # run to sample
+  print you say oh $13 yeah      # run to study
+  print you say hey $18 yeah     # run to bs
+  print you say what $19 ohyeah  # run to bp
+
+  print oh $2 say woo $1 hoo     # acc to run
+  print oh $11 say woo $1 hoo    # exp to run
+  print oh $12 say woo $1 hoo    # sample to run
+  print oh $13 say woo $1 hoo    # study to run
+  print hey $18 say woo $1 hoo   # bs to run
+  print what $19 say woo $1 hoo  # bp to run
+}
