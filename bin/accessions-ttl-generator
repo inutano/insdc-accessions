@@ -18,72 +18,87 @@
 BEGIN {
   FS=OFS="\t"
 
-  oh=woo="insdc:"
-  hey="biosample:"
-  what="bioproject:"
+  insdc="insdc:"
+  bs="biosample:"
+  bp="bioproject:"
 
-  say=" id:link_to "
-  you=" "
-  yeah=";"
-  ohyeah=hoo=" ."
+  label=" rdfs:label "
+  link=" idont:link "
 
   print "@prefix id: <http://identifiers.org/> ."
+  print "@prefix idont: <http://identifiers.org/ontology/> ."
   print "@prefix insdc: <http://identifiers.org/insdc.sra/> ."
   print "@prefix biosample: <http://identifiers.org/biosample/> ."
   print "@prefix bioproject: <http://identifiers.org/bioproject/> ."
+  print "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
+  print "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
   print ""
 }
 
 $0 ~ /^.RX/ {
-  print oh $2 say oh $1 yeah     # acc to exp
-  print you say oh $12 yeah      # acc to sample
-  print you say oh $13 yeah      # acc to study
-  print you say hey $18 yeah     # acc to bs
-  print you say what $19 ohyeah  # acc to bp
+  print insdc $2 " rdf:type insdc:Accession;"
+  print label "\"" $2 "\";"
+  print link insdc $1 ";"
+  print link insdc $12 ";"
+  print link insdc $13 ";"
+  print link bs $18 ";"
+  print link bp $19 "."
 
-  print oh $1 say oh $2 yeah     # exp to acc
-  print you say oh $12 yeah      # exp to sample
-  print you say oh $13 yeah      # exp to study
-  print you say hey $18 yeah     # exp to bs
-  print you say what $19 ohyeah  # exp to bp
+  print insdc $1 " rdf:type insdc:Experiment;"
+  print label "\"" $1 "\";"
+  print link insdc $2 ";"
+  print link insdc $12 ";"
+  print link insdc $13 ";"
+  print link bs $18 ";"
+  print link bp $19 "."
 
-  print oh $12 say oh $1 yeah    # sample to exp
-  print you say oh $2 yeah       # sample to acc
-  print you say oh $13 yeah      # sample to study
-  print you say hey $18 yeah     # sample to bs
-  print you say what $19 ohyeah  # sample to bp
+  print insdc $12 " rdf:type insdc:Sample;"
+  print label "\"" $12 "\";"
+  print link insdc $1 ";"
+  print link insdc $2 ";"
+  print link insdc $13 ";"
+  print link bs $18 ";"
+  print link bp $19 "."
 
-  print oh $13 say oh $1 yeah    # study to expt
-  print you say oh $2 yeah       # study to acc
-  print you say oh $12 yeah      # study to sample
-  print you say hey $18 yeah     # study to bs
-  print you say what $19 ohyeah  # study to bp
+  print insdc $13 " rdf:type insdc:Study;"
+  print label "\"" $13 "\";"
+  print link insdc $1 ";"
+  print link insdc $2 ";"
+  print link insdc $12 ";"
+  print link bs $18 ";"
+  print link bp $19 "."
 
-  print hey $18 say oh $1 yeah   # bs to expt
-  print you say oh $2 yeah       # bs to acc
-  print you say oh $12 yeah      # bs to sample
-  print you say oh $13 yeah      # bs to study
-  print you say what $19 ohyeah  # bs to bp
+  print bs $18 " rdf:type id:BioSample;"
+  print label "\"" $18 "\";"
+  print link insdc $1 ";"
+  print link insdc $2 ";"
+  print link insdc $12 ";"
+  print link insdc $13 ";"
+  print link bp $19 "."
 
-  print what $19 say oh $1 yeah  # bp to expt
-  print you say oh $2 yeah       # bp to acc
-  print you say oh $12 yeah      # bp to sample
-  print you say oh $13 yeah      # bp to study
-  print you say hey $18 ohyeah   # bp to bp
+  print bp $19 " rdf:type id:BioProject;"
+  print label "\"" $19 "\";"
+  print link insdc $1 ";"
+  print link insdc $2 ";"
+  print link insdc $12 ";"
+  print link insdc $13 ";"
+  print link bs $18 "."
 }
 
 $0 ~ /^.RR/ {
-  print oh $1 say oh $2 yeah     # run to acc
-  print you say oh $11 yeah      # run to exp
-  print you say oh $12 yeah      # run to sample
-  print you say oh $13 yeah      # run to study
-  print you say hey $18 yeah     # run to bs
-  print you say what $19 ohyeah  # run to bp
+  print insdc $1 " rdf:type insdc:Run;"
+  print label "\"" $1 "\";"
+  print link insdc $2 ";"
+  print link insdc $11 ";"
+  print link insdc $12 ";"
+  print link insdc $13 ";"
+  print link bs $18 ";"
+  print link bp $19 "."
 
-  print oh $2 say woo $1 hoo     # acc to run
-  print oh $11 say woo $1 hoo    # exp to run
-  print oh $12 say woo $1 hoo    # sample to run
-  print oh $13 say woo $1 hoo    # study to run
-  print hey $18 say woo $1 hoo   # bs to run
-  print what $19 say woo $1 hoo  # bp to run
+  print insdc $2 link insdc $1 "."
+  print insdc $11 link insdc $1 "."
+  print insdc $12 link insdc $1 "."
+  print insdc $13 link insdc $1 "."
+  print bs $18 link insdc $1 "."
+  print bp  $19 link insdc $1 "."
 }
