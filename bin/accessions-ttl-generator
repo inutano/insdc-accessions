@@ -102,3 +102,11 @@ $0 ~ /^.RR/ {
   print bs $18 link insdc $1 "."
   print bp  $19 link insdc $1 "."
 }
+
+$0 ~ /^.RZ/ {
+  print insdc $1 " rdf:type insdc:Analysis;"
+  print label "\"" $1 "\";"
+  print link insdc $2 "."
+
+  print insdc $2 link insdc $1 "."
+}
