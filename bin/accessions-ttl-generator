@@ -36,7 +36,7 @@ BEGIN {
 }
 
 $0 ~ /^.RX/ {
-  print insdc $2 " rdf:type insdc:Accession;"
+  print insdc $2 " rdf:type insdc:Submission;"
   print label "\"" $2 "\";"
   print link insdc $1 ";"
   print link insdc $12 ";"
