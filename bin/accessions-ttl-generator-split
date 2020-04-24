@@ -1,0 +1,15 @@
+#!/bin/bash
+set -eu
+BASEDIR="$(cd $(dirname $0) && pwd -P)/.."
+GENERATOR_PATH="${BASEDIR}/bin/accessions-ttl-generator"
+INPUT_ACCESSIONS_TAB="${1}"
+TMPDIR="${BASEDIR}/data/tmp" && mkdir -p ${TMPDIR}
+OUTDIR="${BASEDIR}/data/out" && mkdir -p ${OUTDIR}
+
+split -l 500000 ${INPUT_ACCESSIONS_TAB} ${TMPDIR}/accessions.
+find ${TMPDIR} -name "accessions.*" -type f | while read f; do
+  awk -f "${GENERATOR_PATH}" "${f}" > "${OUTDIR}/$(basename ${f}).ttl" &
+  [ $( jobs | wc -l ) -ge $( nproc ) ] && wait ||:
+done
+wait
+rm -fr ${TMPDIR}
