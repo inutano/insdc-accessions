@@ -25,7 +25,7 @@ fi
 
 split -l 500000 ${INPUT_ACCESSIONS_TAB} ${TMPDIR}/accessions.
 find ${TMPDIR} -name "accessions.*" -type f | while read f; do
-  awk -f "${GENERATOR_PATH}" "${f}" | grep -e ':-' | grep -e '"-"' > "${TMPDIR}/$(basename ${f}).ttl" &
+  awk -f "${GENERATOR_PATH}" "${f}" | grep -v ':-' | grep -v '"-"' > "${TMPDIR}/$(basename ${f}).ttl" &
   [ $( jobs | wc -l ) -ge $( nproc ) ] && wait ||:
 done
 wait
