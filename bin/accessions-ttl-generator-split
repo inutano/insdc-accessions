@@ -17,7 +17,7 @@ OUTDIR="${BASEDIR}/ttl" && mkdir -p ${OUTDIR}
 INPUT_ACCESSIONS_TAB="${BASEDIR}/SRA_Accessions.tab"
 if [[ ! -e ${INPUT_ACCESSIONS_TAB} ]]; then
   cd ${BASEDIR}
-  wget "ftp.ncbi.nlm.nih.gov/sra/reports/Metadata/SRA_Accessions.tab"
+  lftp -c "open ftp.ncbi.nlm.nih.gov/sra/reports/Metadata && pget -n 8 SRA_Accessions.tab"
 fi
 
 split -l 500000 ${INPUT_ACCESSIONS_TAB} ${TMPDIR}/accessions.
