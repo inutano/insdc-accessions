@@ -4,6 +4,8 @@
 #   ./accessions-ttl-generator-split [output directory]
 #
 set -e
+module load docker
+
 GENERATOR_PATH="$(cd $(dirname $0) && pwd -P)/accessions-ttl-generator"
 
 if [[ -z ${1} ]]; then
@@ -27,5 +29,25 @@ find ${TMPDIR} -name "accessions.*" -type f | while read f; do
 done
 wait
 
-find ${TMPDIR} -name "*ttl" -type f | while read ttl; do mv ${ttl} ${OUTDIR}; done
-rm -fr ${TMPDIR}
+#
+# Validate ttl
+#
+valid_value='Validator finished with 0 warnings and 0 errors.'
+find ${TMPDIR} -name "*ttl" -type f | while read ttl; do
+  validation_output="${ttl}.validation"
+
+  docker run --security-opt seccomp=unconfined --rm \ # do not use tty, it adds a carriage return to the end of lines
+    -v $(dirname "${ttl}"):/work \
+    "quay.io/inutano/turtle-validator:v1.0" \
+    ttl \
+    /work/$(basename "${ttl}") \
+    > "${validation_output}"
+
+  if [[ $(cat "${validation_output}") == "${valid_value}" ]]; then
+    rm -f "${validation_output}"
+  else
+    mv "${validation_output}" ${OUTDIR}
+  fi
+
+  mv ${ttl} ${OUTDIR}
+done
