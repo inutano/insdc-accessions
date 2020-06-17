@@ -1,22 +1,31 @@
 #!/bin/bash
+#
+# usage:
+#   ./accessions-ttl-generator-split [output directory]
+#
 set -e
-BASEDIR="$(cd $(dirname $0) && pwd -P)/.."
-GENERATOR_PATH="${BASEDIR}/bin/accessions-ttl-generator"
+GENERATOR_PATH="$(cd $(dirname $0) && pwd -P)/accessions-ttl-generator"
 
-TMPDIR="${BASEDIR}/data/tmp" && mkdir -p ${TMPDIR}
-OUTDIR="${BASEDIR}/data/out" && mkdir -p ${OUTDIR}
+if [[ -z ${1} ]]; then
+  BASEDIR="$(cd $(dirname $0) && pwd -P)/.."
+else
+  BASEDIR="$(cd ${1} && pwd -P)"
+fi
+TMPDIR="/data1/biosample-lod/accessions/tmp" && mkdir -p ${TMPDIR}
+OUTDIR="${BASEDIR}/ttl" && mkdir -p ${OUTDIR}
 
-INPUT_ACCESSIONS_TAB="${1}"
+INPUT_ACCESSIONS_TAB="${BASEDIR}/SRA_Accessions.tab"
 if [[ ! -e ${INPUT_ACCESSIONS_TAB} ]]; then
-  cd ${TMPDIR}
+  cd ${BASEDIR}
   wget "ftp.ncbi.nlm.nih.gov/sra/reports/Metadata/SRA_Accessions.tab"
-  INPUT_ACCESSIONS_TAB="${TMPDIR}/SRA_Accessions.tab"
 fi
 
 split -l 500000 ${INPUT_ACCESSIONS_TAB} ${TMPDIR}/accessions.
 find ${TMPDIR} -name "accessions.*" -type f | while read f; do
-  awk -f "${GENERATOR_PATH}" "${f}" > "${OUTDIR}/$(basename ${f}).ttl" &
+  awk -f "${GENERATOR_PATH}" "${f}" > "${TMPDIR}/$(basename ${f}).ttl" &
   [ $( jobs | wc -l ) -ge $( nproc ) ] && wait ||:
 done
 wait
+
+find ${TMPDIR} -name "*ttl" -type f | while read ttl; do mv ${ttl} ${OUTDIR}; done
 rm -fr ${TMPDIR}
