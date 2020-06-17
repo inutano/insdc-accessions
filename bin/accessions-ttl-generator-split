@@ -11,7 +11,7 @@ if [[ -z ${1} ]]; then
 else
   BASEDIR="$(cd ${1} && pwd -P)"
 fi
-TMPDIR="/data1/biosample-lod/accessions/tmp" && mkdir -p ${TMPDIR}
+TMPDIR="/data1/tmp/biosample-lod/accessions/" && mkdir -p ${TMPDIR}
 OUTDIR="${BASEDIR}/ttl" && mkdir -p ${OUTDIR}
 
 INPUT_ACCESSIONS_TAB="${BASEDIR}/SRA_Accessions.tab"
