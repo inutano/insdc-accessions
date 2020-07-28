@@ -18,95 +18,129 @@
 BEGIN {
   FS=OFS="\t"
 
-  insdc="insdc:"
-  bs="biosample:"
-  bp="bioproject:"
+  idsra="idsra:"
+  print "@prefix sra: <http://identifiers.org/insdc.sra/> ."
 
+  idbs="idbs:"
+  print "@prefix idbs: <http://identifiers.org/biosample/> ."
+
+  idbp="idbp:"
+  print "@prefix idbp: <http://identifiers.org/bioproject/> ."
+
+  print "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
+  print "@prefix dra: <http://ddbj.nig.ac.jp/ontologies/dra/> ."
+  is_submission=" rdf:type dra:Submission;"
+  is_experiment=" rdf:type dra:Experiment;"
+  is_sample=" rdf:type dra:Sample;"
+  is_study=" rdf:type dra:Study;"
+  is_run=" rdf:type dra:Run;"
+  is_analysis=" rdf:type dra:Analysis;"
+
+  print "@prefix bs: <http://ddbj.nig.ac.jp/ontologies/biosample/> ."
+  is_biosample=" rdf:type bs:BioSample"
+
+  print "@prefix bp: <http://ddbj.nig.ac.jp/ontologies/bioproject/> ."
+  is_bioproject=" rdf:type bp:BioProject"
+
+  print "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
   label=" rdfs:label "
+
+  print "@prefix idont: <http://identifiers.org/ontology/> ."
   link=" idont:link "
 
-  print "@prefix id: <http://identifiers.org/> ."
-  print "@prefix idont: <http://identifiers.org/ontology/> ."
-  print "@prefix insdc: <http://identifiers.org/insdc.sra/> ."
-  print "@prefix biosample: <http://identifiers.org/biosample/> ."
-  print "@prefix bioproject: <http://identifiers.org/bioproject/> ."
-  print "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
-  print "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
   print ""
 }
 
 $0 ~ /^.RX/ {
-  print insdc $2 " rdf:type insdc:Submission;"
+  print idsra $2 is_submission
   print label "\"" $2 "\";"
-  print link insdc $1 ";"
-  print link insdc $12 ";"
-  print link insdc $13 ";"
-  print link bs $18 ";"
-  print link bp $19 "."
+  print link idsra $1 ";"
+  print link idsra $12 ";"
+  print link idsra $13 ";"
+  print link idbs $18 ";"
+  print link idbp $19 "."
+  print ""
 
-  print insdc $1 " rdf:type insdc:Experiment;"
+  print idsra $1 is_experiment
   print label "\"" $1 "\";"
-  print link insdc $2 ";"
-  print link insdc $12 ";"
-  print link insdc $13 ";"
-  print link bs $18 ";"
-  print link bp $19 "."
+  print link idsra $2 ";"
+  print link idsra $12 ";"
+  print link idsra $13 ";"
+  print link idbs $18 ";"
+  print link idbp $19 "."
+  print ""
 
-  print insdc $12 " rdf:type insdc:Sample;"
+  print idsra $12 is_sample
   print label "\"" $12 "\";"
-  print link insdc $1 ";"
-  print link insdc $2 ";"
-  print link insdc $13 ";"
-  print link bs $18 ";"
-  print link bp $19 "."
+  print link idsra $1 ";"
+  print link idsra $2 ";"
+  print link idsra $13 ";"
+  print link idbs $18 ";"
+  print link idbp $19 "."
+  print ""
 
-  print insdc $13 " rdf:type insdc:Study;"
+  print idsra $13 is_study
   print label "\"" $13 "\";"
-  print link insdc $1 ";"
-  print link insdc $2 ";"
-  print link insdc $12 ";"
-  print link bs $18 ";"
-  print link bp $19 "."
+  print link idsra $1 ";"
+  print link idsra $2 ";"
+  print link idsra $12 ";"
+  print link idbs $18 ";"
+  print link idbp $19 "."
+  print ""
 
-  print bs $18 " rdf:type id:BioSample;"
+  print bs $18 is_biosample
   print label "\"" $18 "\";"
-  print link insdc $1 ";"
-  print link insdc $2 ";"
-  print link insdc $12 ";"
-  print link insdc $13 ";"
-  print link bp $19 "."
+  print link idsra $1 ";"
+  print link idsra $2 ";"
+  print link idsra $12 ";"
+  print link idsra $13 ";"
+  print link idbp $19 "."
+  print ""
 
-  print bp $19 " rdf:type id:BioProject;"
+  print bp $19 is_bioproject
   print label "\"" $19 "\";"
-  print link insdc $1 ";"
-  print link insdc $2 ";"
-  print link insdc $12 ";"
-  print link insdc $13 ";"
-  print link bs $18 "."
+  print link idsra $1 ";"
+  print link idsra $2 ";"
+  print link idsra $12 ";"
+  print link idsra $13 ";"
+  print link idbs $18 "."
+  print ""
 }
 
 $0 ~ /^.RR/ {
-  print insdc $1 " rdf:type insdc:Run;"
+  print idsra $1 is_run
   print label "\"" $1 "\";"
-  print link insdc $2 ";"
-  print link insdc $11 ";"
-  print link insdc $12 ";"
-  print link insdc $13 ";"
-  print link bs $18 ";"
-  print link bp $19 "."
+  print link idsra $2 ";"
+  print link idsra $11 ";"
+  print link idsra $12 ";"
+  print link idsra $13 ";"
+  print link idbs $18 ";"
+  print link idbp $19 "."
+  print ""
 
-  print insdc $2 link insdc $1 "."
-  print insdc $11 link insdc $1 "."
-  print insdc $12 link insdc $1 "."
-  print insdc $13 link insdc $1 "."
-  print bs $18 link insdc $1 "."
-  print bp  $19 link insdc $1 "."
+  print idsra $2 link idsra $1 "."
+  print ""
+
+  print idsra $11 link idsra $1 "."
+  print ""
+
+  print idsra $12 link idsra $1 "."
+  print ""
+
+  print idsra $13 link idsra $1 "."
+  print ""
+
+  print idbs $18 link idsra $1 "."
+  print ""
+
+  print idbp  $19 link idsra $1 "."
+  print ""
 }
 
 $0 ~ /^.RZ/ {
-  print insdc $1 " rdf:type insdc:Analysis;"
+  print idsra $1 is_analysis
   print label "\"" $1 "\";"
-  print link insdc $2 "."
+  print link idsra $2 "."
 
-  print insdc $2 link insdc $1 "."
+  print idsra $2 link idsra $1 "."
 }
