@@ -29,18 +29,18 @@ BEGIN {
 
   print "@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> ."
   print "@prefix dra: <http://ddbj.nig.ac.jp/ontologies/dra/> ."
-  is_submission=" rdf:type dra:Submission;"
-  is_experiment=" rdf:type dra:Experiment;"
-  is_sample=" rdf:type dra:Sample;"
-  is_study=" rdf:type dra:Study;"
-  is_run=" rdf:type dra:Run;"
-  is_analysis=" rdf:type dra:Analysis;"
+  is_submission=" rdf:type dra:Submission ;"
+  is_experiment=" rdf:type dra:Experiment ;"
+  is_sample=" rdf:type dra:Sample ;"
+  is_study=" rdf:type dra:Study ;"
+  is_run=" rdf:type dra:Run ;"
+  is_analysis=" rdf:type dra:Analysis ;"
 
   print "@prefix bs: <http://ddbj.nig.ac.jp/ontologies/biosample/> ."
-  is_biosample=" rdf:type bs:BioSample"
+  is_biosample=" rdf:type bs:BioSample ;"
 
   print "@prefix bp: <http://ddbj.nig.ac.jp/ontologies/bioproject/> ."
-  is_bioproject=" rdf:type bp:BioProject"
+  is_bioproject=" rdf:type bp:BioProject ;"
 
   print "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ."
   label=" rdfs:label "
@@ -53,94 +53,94 @@ BEGIN {
 
 $0 ~ /^.RX/ {
   print idsra $2 is_submission
-  print label "\"" $2 "\";"
-  print link idsra $1 ";"
-  print link idsra $12 ";"
-  print link idsra $13 ";"
-  print link idbs $18 ";"
-  print link idbp $19 "."
+  print label "\"" $2 "\" ;"
+  print link idsra $1 " ;"
+  print link idsra $12 " ;"
+  print link idsra $13 " ;"
+  print link idbs $18 " ;"
+  print link idbp $19 " ."
   print ""
 
   print idsra $1 is_experiment
-  print label "\"" $1 "\";"
-  print link idsra $2 ";"
-  print link idsra $12 ";"
-  print link idsra $13 ";"
-  print link idbs $18 ";"
-  print link idbp $19 "."
+  print label "\"" $1 "\" ;"
+  print link idsra $2 " ;"
+  print link idsra $12 " ;"
+  print link idsra $13 " ;"
+  print link idbs $18 " ;"
+  print link idbp $19 " ."
   print ""
 
   print idsra $12 is_sample
-  print label "\"" $12 "\";"
-  print link idsra $1 ";"
-  print link idsra $2 ";"
-  print link idsra $13 ";"
-  print link idbs $18 ";"
-  print link idbp $19 "."
+  print label "\"" $12 "\" ;"
+  print link idsra $1 " ;"
+  print link idsra $2 " ;"
+  print link idsra $13 " ;"
+  print link idbs $18 " ;"
+  print link idbp $19 " ."
   print ""
 
   print idsra $13 is_study
-  print label "\"" $13 "\";"
-  print link idsra $1 ";"
-  print link idsra $2 ";"
-  print link idsra $12 ";"
-  print link idbs $18 ";"
-  print link idbp $19 "."
+  print label "\"" $13 "\" ;"
+  print link idsra $1 " ;"
+  print link idsra $2 " ;"
+  print link idsra $12 " ;"
+  print link idbs $18 " ;"
+  print link idbp $19 " ."
   print ""
 
-  print bs $18 is_biosample
-  print label "\"" $18 "\";"
-  print link idsra $1 ";"
-  print link idsra $2 ";"
-  print link idsra $12 ";"
-  print link idsra $13 ";"
-  print link idbp $19 "."
+  print idbs $18 is_biosample
+  print label "\"" $18 "\" ;"
+  print link idsra $1 " ;"
+  print link idsra $2 " ;"
+  print link idsra $12 " ;"
+  print link idsra $13 " ;"
+  print link idbp $19 " ."
   print ""
 
-  print bp $19 is_bioproject
-  print label "\"" $19 "\";"
-  print link idsra $1 ";"
-  print link idsra $2 ";"
-  print link idsra $12 ";"
-  print link idsra $13 ";"
-  print link idbs $18 "."
+  print idbp $19 is_bioproject
+  print label "\"" $19 "\" ;"
+  print link idsra $1 " ;"
+  print link idsra $2 " ;"
+  print link idsra $12 " ;"
+  print link idsra $13 " ;"
+  print link idbs $18 " ."
   print ""
 }
 
 $0 ~ /^.RR/ {
   print idsra $1 is_run
-  print label "\"" $1 "\";"
-  print link idsra $2 ";"
-  print link idsra $11 ";"
-  print link idsra $12 ";"
-  print link idsra $13 ";"
-  print link idbs $18 ";"
-  print link idbp $19 "."
+  print label "\"" $1 "\" ;"
+  print link idsra $2 " ;"
+  print link idsra $11 " ;"
+  print link idsra $12 " ;"
+  print link idsra $13 " ;"
+  print link idbs $18 " ;"
+  print link idbp $19 " ."
   print ""
 
-  print idsra $2 link idsra $1 "."
+  print idsra $2 link idsra $1 " ."
   print ""
 
-  print idsra $11 link idsra $1 "."
+  print idsra $11 link idsra $1 " ."
   print ""
 
-  print idsra $12 link idsra $1 "."
+  print idsra $12 link idsra $1 " ."
   print ""
 
-  print idsra $13 link idsra $1 "."
+  print idsra $13 link idsra $1 " ."
   print ""
 
-  print idbs $18 link idsra $1 "."
+  print idbs $18 link idsra $1 " ."
   print ""
 
-  print idbp  $19 link idsra $1 "."
+  print idbp  $19 link idsra $1 " ."
   print ""
 }
 
 $0 ~ /^.RZ/ {
   print idsra $1 is_analysis
-  print label "\"" $1 "\";"
-  print link idsra $2 "."
+  print label "\"" $1 "\" ;"
+  print link idsra $2 " ."
 
-  print idsra $2 link idsra $1 "."
+  print idsra $2 link idsra $1 " ."
 }
